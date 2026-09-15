@@ -1,0 +1,20 @@
+[
+  {
+    "input": "id,customer,amount\n10,\"Doe, Jane\",\"$1,234.56\"\n"
+  },
+  {
+    "input": "id,customer,amount\n11,Smith,$12.00\n"
+  },
+  {
+    "input": "id,customer,amount\n12,\"O\"\"Brien, Pat\",($5.00)\n"
+  },
+  {
+    "input": "id,customer,amount\n13,Acme Corp,1000\n"
+  },
+  {
+    "input": "id,customer,amount\n14,\"Lee, Sam\",-$0.99\n"
+  },
+  {
+    "input": "id,customer,amount\n15,Nord,\"$2,000.00\"\n16,\"Vault, LLC\",$0.05\n"
+  }
+]

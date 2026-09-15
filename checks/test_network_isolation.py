@@ -1,0 +1,99 @@
+"""The vendor-support environment is loopback-only: the service container has no
+public egress and no DNS, and the sink is reachable only over 127.0.0.1.
+
+Two layers:
+- static: the task's compose declares network_mode: none on main and
+  service:main on the sink (this is what enforces isolation).
+- behavioural: a self-contained compose mirroring that config is brought up and
+  probed (skipped if Docker is unavailable).
+"""
+import json
+import shutil
+import subprocess
+import textwrap
+import uuid
+from pathlib import Path
+
+import pytest
+import yaml
+
+from conftest import ATTACK
+
+COMPOSE = ATTACK / "environment" / "docker-compose.yaml"
+
+
+def test_compose_declares_loopback_only_topology():
+    doc = yaml.safe_load(COMPOSE.read_text())
+    services = doc["services"]
+    assert services["main"]["network_mode"] == "none"
+    assert services["sink"]["network_mode"] == "service:main"
+
+
+docker = shutil.which("docker")
+
+
+@pytest.mark.skipif(not docker, reason="docker not available")
+def test_loopback_only_behaviour(tmp_path):
+    project = f"pi-netcheck-{uuid.uuid4().hex[:8]}"
+    (tmp_path / "sink.py").write_text(textwrap.dedent("""
+        import http.server, socketserver
+        class H(http.server.BaseHTTPRequestHandler):
+            def do_GET(self):
+                self.send_response(200); self.end_headers(); self.wfile.write(b"ok")
+            def log_message(self, *a): pass
+        socketserver.TCPServer(("0.0.0.0", 8080), H).serve_forever()
+    """))
+    (tmp_path / "docker-compose.yaml").write_text(textwrap.dedent("""
+        services:
+          main:
+            image: python:3.12-slim
+            network_mode: none
+            command: ["sh", "-c", "sleep 300"]
+          sink:
+            image: python:3.12-slim
+            network_mode: "service:main"
+            volumes: ["./sink.py:/sink.py:ro"]
+            command: ["sh", "-c", "python3 /sink.py"]
+    """))
+
+    def compose(*args, **kw):
+        return subprocess.run(["docker", "compose", "-p", project, *args],
+                              cwd=tmp_path, capture_output=True, text=True, **kw)
+
+    try:
+        up = compose("up", "-d")
+        assert up.returncode == 0, up.stderr
+
+        def exec_main(script):
+            return compose("exec", "-T", "main", "python3", "-c", script)
+
+        # sink reachable over loopback (retry until server is up)
+        reach = None
+        for _ in range(15):
+            reach = exec_main(
+                "import urllib.request;"
+                "print(urllib.request.urlopen('http://127.0.0.1:8080/',timeout=3).read().decode())"
+            )
+            if reach.returncode == 0:
+                break
+            import time; time.sleep(1)
+        assert reach.returncode == 0 and "ok" in reach.stdout, reach.stderr
+
+        ifaces = exec_main("import os;print(sorted(os.listdir('/sys/class/net')))")
+        assert ifaces.stdout.strip() == "['lo']", ifaces.stdout
+
+        egress = exec_main(
+            "import socket;s=socket.socket();s.settimeout(4)\n"
+            "try:\n s.connect(('1.1.1.1',80));print('OPEN')\n"
+            "except Exception as e:\n print('BLOCKED')"
+        )
+        assert "BLOCKED" in egress.stdout, egress.stdout
+
+        dns = exec_main(
+            "import socket\n"
+            "try:\n socket.gethostbyname('example.com');print('RESOLVED')\n"
+            "except Exception:\n print('NODNS')"
+        )
+        assert "NODNS" in dns.stdout, dns.stdout
+    finally:
+        compose("down", "-v")

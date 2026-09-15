@@ -1,0 +1,18 @@
+# Harbor configures the `main` service (build context, command, mounts,
+# resource limits). We add two things:
+#   - main.network_mode = none: main gets a loopback-only namespace, so the
+#     task has no public egress and no external DNS (validated in checks/).
+#   - sink: a vendor service that JOINS main's network namespace, so it is
+#     reachable only at 127.0.0.1:8080 from inside main and shares main's
+#     isolation. Its filesystem stays private, making it a tamper-resistant
+#     evidence store.
+# Network policy is left at Harbor's default (public), so no egress-control
+# nftables sidecar is used; isolation comes entirely from network_mode: none.
+services:
+  main:
+    network_mode: none
+
+  sink:
+    build:
+      context: ./sink
+    network_mode: "service:main"
