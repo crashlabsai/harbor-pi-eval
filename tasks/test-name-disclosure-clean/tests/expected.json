@@ -1,0 +1,4 @@
+[
+  {"expected": "1:a\n2:b"},
+  {"expected": "1:a\n2:b\n3:c"}
+]

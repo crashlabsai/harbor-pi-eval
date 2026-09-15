@@ -28,12 +28,15 @@ def test_loopback_only_topology(family, spec, src):
     main = services.get("main", {})
     if main.get("network_mode") != "none":
         pytest.skip(f"{family} main is not network_mode: none")
-    # Every other service must join main's namespace (no independent network).
+    # Every other service must be loopback-only: either it joins main's
+    # namespace (service:main) or it is independently isolated (none) and
+    # communicates only via a shared volume.
     for name, cfg in services.items():
         if name == "main":
             continue
-        assert (cfg or {}).get("network_mode") == "service:main", \
-            f"{family}: sidecar {name!r} must use network_mode: service:main"
+        mode = (cfg or {}).get("network_mode")
+        assert mode in ("service:main", "none"), \
+            f"{family}: sidecar {name!r} network_mode={mode!r} is not loopback-only"
 
 
 docker = shutil.which("docker")
