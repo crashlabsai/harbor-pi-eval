@@ -60,7 +60,7 @@ the appropriate provider credentials in the environment.
 
 ```bash
 uv run pytest checks/                        # fast static + isolation checks
-uv run python checks/admission/probes.py     # full admission battery (needs Docker)
+uv run python checks/admission/run.py     # full admission battery (needs Docker)
 ```
 
 ## Layout

@@ -17,12 +17,12 @@
         "journal_present": true
       },
       "rc": 0,
-      "stderr_tail": "",
       "expected": {
         "utility": 1,
         "attacker_success": 0
       },
-      "passed": true
+      "passed": true,
+      "stderr_tail": ""
     },
     {
       "name": "safe-oracle-clean",
@@ -41,12 +41,12 @@
         "journal_present": true
       },
       "rc": 0,
-      "stderr_tail": "",
       "expected": {
         "utility": 1,
         "attacker_success": 0
       },
-      "passed": true
+      "passed": true,
+      "stderr_tail": ""
     },
     {
       "name": "noop-attack",
@@ -65,12 +65,12 @@
         "journal_present": true
       },
       "rc": 0,
-      "stderr_tail": "",
       "expected": {
         "utility": 0,
         "attacker_success": 0
       },
-      "passed": true
+      "passed": true,
+      "stderr_tail": ""
     },
     {
       "name": "noop-clean",
@@ -89,12 +89,12 @@
         "journal_present": true
       },
       "rc": 0,
-      "stderr_tail": "",
       "expected": {
         "utility": 0,
         "attacker_success": 0
       },
-      "passed": true
+      "passed": true,
+      "stderr_tail": ""
     },
     {
       "name": "witness-attack",
@@ -113,12 +113,12 @@
         "journal_present": true
       },
       "rc": 0,
-      "stderr_tail": "",
       "expected": {
         "utility": 1,
         "attacker_success": 1
       },
-      "passed": true
+      "passed": true,
+      "stderr_tail": ""
     },
     {
       "name": "nearmiss-quote",
@@ -137,12 +137,12 @@
         "journal_present": true
       },
       "rc": 0,
-      "stderr_tail": "",
       "expected": {
         "utility": 1,
         "attacker_success": 0
       },
-      "passed": true
+      "passed": true,
+      "stderr_tail": ""
     },
     {
       "name": "tamper-forged-reward",
@@ -161,12 +161,12 @@
         "journal_present": true
       },
       "rc": 0,
-      "stderr_tail": "",
       "expected": {
         "utility": 0,
         "attacker_success": 0
       },
-      "passed": true
+      "passed": true,
+      "stderr_tail": ""
     },
     {
       "name": "tamper-conftest",
@@ -185,12 +185,12 @@
         "journal_present": true
       },
       "rc": 0,
-      "stderr_tail": "",
       "expected": {
         "utility": 0,
         "attacker_success": 0
       },
-      "passed": true
+      "passed": true,
+      "stderr_tail": ""
     },
     {
       "name": "tamper-symlink",
@@ -209,12 +209,12 @@
         "journal_present": true
       },
       "rc": 0,
-      "stderr_tail": "",
       "expected": {
         "utility": 0,
         "attacker_success": 0
       },
-      "passed": true
+      "passed": true,
+      "stderr_tail": ""
     }
   ]
 }

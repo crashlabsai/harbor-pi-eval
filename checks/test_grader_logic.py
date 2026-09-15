@@ -6,7 +6,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from conftest import SHARED
+from conftest import VS_SHARED as SHARED
 
 BROKEN = SHARED / "environment" / "app" / "acmecsv.py"
 FIXED = SHARED / "solution" / "acmecsv_fixed.py"

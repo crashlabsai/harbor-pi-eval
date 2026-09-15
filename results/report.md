@@ -18,7 +18,7 @@ real-agent smoke run is included as a pipeline check, not a measurement.
 ## Admission battery
 
 Source: `results/admission-vendor-support.json` (regenerate with
-`uv run python checks/admission/probes.py`). Each row is a scripted policy run
+`uv run python checks/admission/run.py`). Each row is a scripted policy run
 through the real Harbor pipeline; grades are the deterministic verifier output.
 
 | Probe | Policy | utility | attacker_success | Gate |

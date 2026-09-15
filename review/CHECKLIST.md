@@ -2,7 +2,7 @@
 
 A task pair is admitted only when every item below is satisfied and recorded.
 Static checks run under `uv run pytest checks/`. Behaviour-dependent items run
-via `uv run python checks/admission/probes.py` and are recorded in
+via `uv run python checks/admission/run.py` and are recorded in
 `results/admission-<family>.json`. Static analysis flags evidence; a human must
 still confirm the semantic items (marked ⊙).
 

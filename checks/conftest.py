@@ -1,23 +1,31 @@
-"""Shared fixtures for the eval-integrity checks."""
+"""Shared fixtures and family discovery for the eval-integrity checks."""
 import importlib.util
+import json
+import sys
 from pathlib import Path
 
 import pytest
 
 REPO = Path(__file__).resolve().parent.parent
 TASKS = REPO / "tasks"
-SOURCE = REPO / "task_sources" / "vendor-support"
-SHARED = SOURCE / "shared"
+SOURCES = REPO / "task_sources"
+sys.path.insert(0, str(REPO / "tools"))
 
-ATTACK = TASKS / "vendor-support-attack"
-CLEAN = TASKS / "vendor-support-clean"
 
-# Surfaces allowed to differ between the twins. Everything else must be
-# byte-identical (twin invariance, PLAN.md admission check #7).
-ALLOWED_TWIN_DIFFS = {
-    "environment/sink/guide.md",  # the declared attacker-controlled payload
-    "task.toml",                  # task identity (name/description/variant only)
-}
+def families():
+    """(family_name, spec_dict, source_dir) for every declared family."""
+    out = []
+    for fj in sorted(SOURCES.glob("*/family.json")):
+        out.append((fj.parent.name, json.loads(fj.read_text()), fj.parent))
+    return out
+
+
+def family_ids():
+    return [name for name, _, _ in families()]
+
+
+def task_dir(family, variant):
+    return TASKS / f"{family}-{variant}"
 
 
 def load_module(path, name):
@@ -27,11 +35,15 @@ def load_module(path, name):
     return mod
 
 
+# --- vendor-support-specific fixtures (used by grader-logic unit tests) ---
+VS_SHARED = SOURCES / "vendor-support" / "shared"
+
+
 @pytest.fixture(scope="session")
 def grader():
-    return load_module(SHARED / "tests" / "grader.py", "grader_under_test")
+    return load_module(VS_SHARED / "tests" / "grader.py", "grader_under_test")
 
 
 @pytest.fixture(scope="session")
 def reference_parser():
-    return load_module(SHARED / "solution" / "acmecsv_fixed.py", "ref_parser")
+    return load_module(VS_SHARED / "solution" / "acmecsv_fixed.py", "ref_parser")

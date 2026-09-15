@@ -1,13 +1,7 @@
-"""The vendor-support environment is loopback-only: the service container has no
-public egress and no DNS, and the sink is reachable only over 127.0.0.1.
-
-Two layers:
-- static: the task's compose declares network_mode: none on main and
-  service:main on the sink (this is what enforces isolation).
-- behavioural: a self-contained compose mirroring that config is brought up and
-  probed (skipped if Docker is unavailable).
-"""
-import json
+"""Loopback-only isolation. Static: every family whose environment compose
+declares main network_mode: none must attach its sidecars via service:main.
+Behavioural: a self-contained compose mirroring that pattern is loopback-only
+(no egress, no DNS). Behavioural probe skipped if Docker is unavailable."""
 import shutil
 import subprocess
 import textwrap
@@ -17,16 +11,29 @@ from pathlib import Path
 import pytest
 import yaml
 
-from conftest import ATTACK
-
-COMPOSE = ATTACK / "environment" / "docker-compose.yaml"
+from conftest import SOURCES, families, family_ids
 
 
-def test_compose_declares_loopback_only_topology():
-    doc = yaml.safe_load(COMPOSE.read_text())
-    services = doc["services"]
-    assert services["main"]["network_mode"] == "none"
-    assert services["sink"]["network_mode"] == "service:main"
+def _compose(family):
+    p = SOURCES / family / "shared" / "environment" / "docker-compose.yaml"
+    return yaml.safe_load(p.read_text()) if p.exists() else None
+
+
+@pytest.mark.parametrize("family,spec,src", families(), ids=family_ids())
+def test_loopback_only_topology(family, spec, src):
+    doc = _compose(family)
+    if not doc:
+        pytest.skip(f"{family} has no docker-compose.yaml")
+    services = doc.get("services", {})
+    main = services.get("main", {})
+    if main.get("network_mode") != "none":
+        pytest.skip(f"{family} main is not network_mode: none")
+    # Every other service must join main's namespace (no independent network).
+    for name, cfg in services.items():
+        if name == "main":
+            continue
+        assert (cfg or {}).get("network_mode") == "service:main", \
+            f"{family}: sidecar {name!r} must use network_mode: service:main"
 
 
 docker = shutil.which("docker")
@@ -56,9 +63,9 @@ def test_loopback_only_behaviour(tmp_path):
             command: ["sh", "-c", "python3 /sink.py"]
     """))
 
-    def compose(*args, **kw):
+    def compose(*args):
         return subprocess.run(["docker", "compose", "-p", project, *args],
-                              cwd=tmp_path, capture_output=True, text=True, **kw)
+                              cwd=tmp_path, capture_output=True, text=True)
 
     try:
         up = compose("up", "-d")
@@ -67,33 +74,23 @@ def test_loopback_only_behaviour(tmp_path):
         def exec_main(script):
             return compose("exec", "-T", "main", "python3", "-c", script)
 
-        # sink reachable over loopback (retry until server is up)
+        import time
         reach = None
         for _ in range(15):
-            reach = exec_main(
-                "import urllib.request;"
-                "print(urllib.request.urlopen('http://127.0.0.1:8080/',timeout=3).read().decode())"
-            )
+            reach = exec_main("import urllib.request;"
+                              "print(urllib.request.urlopen('http://127.0.0.1:8080/',timeout=3).read().decode())")
             if reach.returncode == 0:
                 break
-            import time; time.sleep(1)
+            time.sleep(1)
         assert reach.returncode == 0 and "ok" in reach.stdout, reach.stderr
-
-        ifaces = exec_main("import os;print(sorted(os.listdir('/sys/class/net')))")
-        assert ifaces.stdout.strip() == "['lo']", ifaces.stdout
-
-        egress = exec_main(
-            "import socket;s=socket.socket();s.settimeout(4)\n"
-            "try:\n s.connect(('1.1.1.1',80));print('OPEN')\n"
-            "except Exception as e:\n print('BLOCKED')"
-        )
+        assert exec_main("import os;print(sorted(os.listdir('/sys/class/net')))").stdout.strip() == "['lo']"
+        egress = exec_main("import socket;s=socket.socket();s.settimeout(4)\n"
+                           "try:\n s.connect(('1.1.1.1',80));print('OPEN')\n"
+                           "except Exception:\n print('BLOCKED')")
         assert "BLOCKED" in egress.stdout, egress.stdout
-
-        dns = exec_main(
-            "import socket\n"
-            "try:\n socket.gethostbyname('example.com');print('RESOLVED')\n"
-            "except Exception:\n print('NODNS')"
-        )
+        dns = exec_main("import socket\n"
+                        "try:\n socket.gethostbyname('example.com');print('RESOLVED')\n"
+                        "except Exception:\n print('NODNS')")
         assert "NODNS" in dns.stdout, dns.stdout
     finally:
         compose("down", "-v")
