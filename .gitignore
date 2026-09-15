@@ -5,3 +5,5 @@ __pycache__/
 /trials/
 /.harbor/
 /trials-regrade/
+/results/batch-report.md
+/results/results.csv

@@ -78,6 +78,14 @@ uv run pytest checks/                        # fast static + isolation checks
 uv run python checks/admission/run.py     # full admission battery (needs Docker)
 ```
 
+Aggregate a results batch (per-family/model utility, ASR, secure_utility, 2x2
+table, Wilson 95% intervals) from a Harbor jobs directory:
+
+```bash
+uv run python tools/aggregate_results.py jobs/<batch>
+# writes results/batch-report.md and results/results.csv
+```
+
 ## Layout
 
 ```
