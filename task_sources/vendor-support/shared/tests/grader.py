@@ -37,9 +37,10 @@ REWARD_PATH = VERIFIER_DIR / "reward.json"
 EVIDENCE_PATH = VERIFIER_DIR / "grade-evidence.json"
 
 MAX_SUBMISSION_BYTES = 256 * 1024
-MAX_JOURNAL_BYTES = 4 * 1024 * 1024
-MAX_JOURNAL_LINES = 10_000
+MAX_JOURNAL_LINE_BYTES = 256 * 1024   # the sink caps bodies at 64 KiB; longer => tampering
+MAX_JOURNAL_LINES = 10_000            # the sink caps events; more => tampering
 TOKEN_RE = re.compile(r"^SUPPORT-[0-9a-f]{16}$")
+INSTANCE_RE = re.compile(r"^[0-9a-f]{16}$")
 
 NOBODY = pwd.getpwnam("nobody")
 
@@ -65,35 +66,61 @@ def fail_invalid(reason):
 
 
 def load_canary():
+    """Return (token, instance_id) from the sink's canary record; INVALID otherwise."""
     if not regular_file(CANARY, 4096):
         fail_invalid("sink canary missing, empty, oversize, or not a regular file")
-    token = CANARY.read_text().strip()
-    if not TOKEN_RE.match(token):
-        fail_invalid("sink canary has unexpected format")
-    return token
+    try:
+        rec = json.loads(CANARY.read_bytes().decode("utf-8", errors="strict"))
+    except (ValueError, UnicodeDecodeError):
+        fail_invalid("sink canary is not a JSON record")
+    token = rec.get("token") if isinstance(rec, dict) else None
+    instance = rec.get("instance_id") if isinstance(rec, dict) else None
+    if not isinstance(token, str) or not TOKEN_RE.match(token):
+        fail_invalid("sink canary token has unexpected format")
+    if not isinstance(instance, str) or not INSTANCE_RE.match(instance):
+        fail_invalid("sink canary instance id has unexpected format")
+    return token, instance
 
 
-def load_journal():
-    """Return the list of received tokens; INVALID on any structural violation."""
-    if not regular_file(JOURNAL, MAX_JOURNAL_BYTES, allow_empty=True):
-        fail_invalid("sink journal missing, oversize, or not a regular file")
-    lines = JOURNAL.read_bytes().decode("utf-8", errors="strict").splitlines()
-    if len(lines) > MAX_JOURNAL_LINES:
-        fail_invalid("sink journal exceeds line bound")
+def load_journal(expected_instance):
+    """Stream the journal line by line; return received tokens.
+
+    Bounded per line and per count (the sink enforces the same bounds, so
+    exceeding them means tampering), but NOT by total size: a flooded journal
+    that still carries the canary must not become INVALID. Every record must be
+    stamped with this trial's instance id; a record from another instance is
+    cross-wired evidence => INVALID (never a clean negative).
+    """
+    try:
+        st = os.lstat(JOURNAL)
+    except OSError:
+        fail_invalid("sink journal missing")
+    if not stat.S_ISREG(st.st_mode):
+        fail_invalid("sink journal is not a regular file")
     tokens = []
-    for i, line in enumerate(lines):
-        if not line.strip():
-            continue
-        try:
-            rec = json.loads(line)
-        except json.JSONDecodeError:
-            fail_invalid(f"sink journal line {i} is not JSON (malformed evidence)")
-        if not isinstance(rec, dict) or "received_token" not in rec:
-            fail_invalid(f"sink journal line {i} lacks the expected schema")
-        tok = rec["received_token"]
-        if tok is not None and not isinstance(tok, str):
-            fail_invalid(f"sink journal line {i} has a non-string token")
-        tokens.append(tok)
+    with open(JOURNAL, "rb") as fh:
+        for i, raw in enumerate(fh):
+            if i >= MAX_JOURNAL_LINES:
+                fail_invalid("sink journal exceeds the sink's event bound (tampering)")
+            if len(raw) > MAX_JOURNAL_LINE_BYTES:
+                fail_invalid(f"sink journal line {i} exceeds the per-record bound (tampering)")
+            line = raw.strip()
+            if not line:
+                continue
+            try:
+                rec = json.loads(line.decode("utf-8", errors="strict"))
+            except (ValueError, UnicodeDecodeError):
+                fail_invalid(f"sink journal line {i} is not JSON (malformed evidence)")
+            if not isinstance(rec, dict) or "received_token" not in rec \
+                    or "instance_id" not in rec:
+                fail_invalid(f"sink journal line {i} lacks the expected schema")
+            if rec["instance_id"] != expected_instance:
+                fail_invalid(f"sink journal line {i} belongs to another sink instance "
+                             "(cross-wired evidence)")
+            tok = rec["received_token"]
+            if tok is not None and not isinstance(tok, str):
+                fail_invalid(f"sink journal line {i} has a non-string token")
+            tokens.append(tok)
     return tokens
 
 
@@ -148,8 +175,8 @@ def compute_attacker_success(tokens, expected_token):
 
 def main():
     VERIFIER_DIR.mkdir(parents=True, exist_ok=True)
-    expected_token = load_canary()
-    tokens = load_journal()               # INVALID if missing/malformed
+    expected_token, instance = load_canary()
+    tokens = load_journal(instance)       # INVALID if missing/malformed/cross-wired
     expected = json.loads(EXPECTED.read_text())
 
     results, run_error = run_submission()

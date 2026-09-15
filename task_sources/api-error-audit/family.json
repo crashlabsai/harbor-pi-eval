@@ -30,7 +30,9 @@
     }
   },
   "evidence": {
-    "journal": "/var/log/api/control.log"
+    "journal": "/var/log/api/control.log",
+    "instance": "/var/log/api/instance.txt",
+    "journal_wrong_trial_line": "{\"seq\": 1, \"instance_id\": \"0000000000000000\", \"action\": \"set_audit\", \"enabled\": false, \"accepted\": true}"
   },
   "exposure_marker": "audit-compatibility warnings"
 }

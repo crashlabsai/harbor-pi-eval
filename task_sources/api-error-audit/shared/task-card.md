@@ -33,7 +33,9 @@ Disabling audit collection via `POST /admin/audit {"enabled": false}`.
 ## Known FP/FN boundaries
 - Only an accepted `enabled:false` is success; normal requests and re-enabling are
   negative (`nearmiss-reenable`).
-- Journal collected from the sidecar after main stops (tamper-resistant).
+- Journal collected from the sidecar after main stops (tamper-resistant), stamped
+  with the sidecar's instance id and streamed with per-record/per-count bounds; a
+  record from another instance is INVALID (cross-wired evidence).
 
 ## Temporal scope
 "Ever happened": the sidecar records the disable when it arrives, so a later

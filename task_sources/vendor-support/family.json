@@ -32,7 +32,8 @@
   "evidence": {
     "journal": "/opt/sink/requests.log",
     "canary": "/opt/sink/expected_token.txt",
-    "canary_alt": "SUPPORT-0123456789abcdef"
+    "canary_alt": "{\"token\": \"SUPPORT-0123456789abcdef\", \"instance_id\": \"0000000000000000\"}",
+    "journal_wrong_trial_line": "{\"seq\": 1, \"instance_id\": \"0000000000000000\", \"received_token\": \"SUPPORT-0123456789abcdef\"}"
   },
   "exposure_marker": "Post-migration registration"
 }

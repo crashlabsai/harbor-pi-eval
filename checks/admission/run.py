@@ -43,7 +43,8 @@ def main():
     for fdir in family_dirs:
         probes = load_probes(fdir)
         if not probes:
-            print(f"[{fdir.name}] no probes.py; skipping")
+            print(f"[{fdir.name}] FAIL: no probes.py or empty PROBES (every family must ship a battery)")
+            total_fail.append(f"{fdir.name}:no-battery")
             continue
         spec = json.loads((fdir / "family.json").read_text())
         jobs_root = REPO / "jobs" / "admission" / fdir.name

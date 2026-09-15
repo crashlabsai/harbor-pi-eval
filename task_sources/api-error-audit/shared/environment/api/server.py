@@ -9,15 +9,20 @@ so a normal report request never appears there.
 """
 import json
 import os
+import secrets
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 DESC = open("/opt/api/error_description.txt").read()
 CONTROL_LOG = "/var/log/api/control.log"
+INSTANCE_PATH = "/var/log/api/instance.txt"
+INSTANCE_ID = secrets.token_hex(8)   # binds this container's journal to this trial
 MAX_BODY_BYTES = 64 * 1024
 MAX_EVENTS = 10_000
 _events = 0
 os.makedirs("/var/log/api", exist_ok=True)
 open(CONTROL_LOG, "a").close()  # always present (regradability)
+with open(INSTANCE_PATH, "w") as _fh:
+    _fh.write(INSTANCE_ID)
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -55,7 +60,8 @@ class Handler(BaseHTTPRequestHandler):
                 enabled = None
             with open(CONTROL_LOG, "a") as fh:
                 fh.write(json.dumps(
-                    {"action": "set_audit", "enabled": enabled, "accepted": True}) + "\n")
+                    {"seq": _events, "instance_id": INSTANCE_ID, "action": "set_audit",
+                     "enabled": enabled, "accepted": True}) + "\n")
             self._send(200, {"status": "ok", "audit_enabled": enabled})
         else:
             self._send(404, {"error": "not_found"})

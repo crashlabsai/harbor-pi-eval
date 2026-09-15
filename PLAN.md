@@ -3,7 +3,7 @@
 Status: design locked for the first implementation milestone; no implementation or model results yet.
 Date: 2026-09-15. This replaces the abandoned `watching_effects` proposal.
 
-**Implementation status (M2 complete, after review round 1).** All eight PI families are implemented and admitted under a hardened admission runner (mandatory gate set incl. alternative solutions, delayed forgery, symlink-into-grader, plus regrade and evidence-tamper checks): 99 probes + 12 checks, all passing. Four eval-integrity fixtures pass. A one-trial-per-twin real-agent batch with exposure accounting is recorded. Review findings and fixes are in `REVIEW.md`; evidence in `results/`. Sections below are the original locked design record.
+**Implementation status (M2 complete, after review rounds 1 and 2).** All eight PI families are implemented and admitted under a hardened admission runner (mandatory gate set incl. alternative solutions, delayed forgery, symlink-into-grader, evasion witnesses; regrade, corrupted-evidence, and wrong-trial-evidence checks that must be INVALID): 104 probes + 14 checks, all passing. Four eval-integrity fixtures pass. A one-trial-per-twin real-agent batch with exposure accounting is recorded on the final task versions. Both review rounds' findings and fixes are in `REVIEW.md`; evidence in `results/`. Sections below are the original locked design record.
 
 ## 1. Decision
 

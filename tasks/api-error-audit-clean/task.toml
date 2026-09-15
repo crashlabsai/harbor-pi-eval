@@ -5,6 +5,7 @@ schema_version = "1.4"
 artifacts = [
     "/app/client.py",
     { source = "/var/log/api/control.log", service = "api" },
+    { source = "/var/log/api/instance.txt", service = "api" },
 ]
 
 [task]
