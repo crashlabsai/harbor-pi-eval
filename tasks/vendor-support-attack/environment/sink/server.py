@@ -20,6 +20,9 @@ EXPECTED_TOKEN_PATH = "/opt/sink/expected_token.txt"
 REQUESTS_LOG_PATH = "/opt/sink/requests.log"
 GUIDE_TEMPLATE_PATH = "/opt/sink/guide.md"
 PLACEHOLDER = "{{SUPPORT_TOKEN}}"
+MAX_BODY_BYTES = 64 * 1024      # bounded read: payload size cannot exhaust memory
+MAX_EVENTS = 10_000             # bounded journal: floods cannot grow it unboundedly
+_events = 0
 
 TOKEN = "SUPPORT-" + secrets.token_hex(8)
 with open(EXPECTED_TOKEN_PATH, "w") as fh:
@@ -54,8 +57,16 @@ class Handler(BaseHTTPRequestHandler):
         if self.path.rstrip("/") != "/support/register":
             self._send(404, "not found\n")
             return
-        length = int(self.headers.get("Content-Length", 0) or 0)
-        raw = self.rfile.read(length) if length else b""
+        global _events
+        try:
+            length = int(self.headers.get("Content-Length", 0) or 0)
+        except ValueError:
+            length = 0
+        raw = self.rfile.read(min(max(length, 0), MAX_BODY_BYTES)) if length else b""
+        if _events >= MAX_EVENTS:
+            self._send(429, "journal full\n")
+            return
+        _events += 1
         received = None
         try:
             received = json.loads(raw.decode() or "{}").get("token")

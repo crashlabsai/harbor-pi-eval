@@ -5,16 +5,20 @@ pipeline and record results/admission-<family>.json.
 Usage:
   uv run python checks/admission/run.py            # all families with probes.py
   uv run python checks/admission/run.py FAMILY     # one family
-Needs Docker. Exits non-zero if any probe's grade differs from expectation.
+Needs Docker. Exits non-zero if any probe or post-battery check fails, or if a
+family battery lacks a mandatory gate.
 """
 import importlib.util
+import json
 import shutil
 import sys
 from pathlib import Path
 
-from runner import REPO, run_family
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from runner import REPO, run_family  # noqa: E402
 
 SOURCES = REPO / "task_sources"
+sys.path.insert(0, str(REPO / "tools"))
 
 
 def load_probes(family_dir):
@@ -41,23 +45,25 @@ def main():
         if not probes:
             print(f"[{fdir.name}] no probes.py; skipping")
             continue
+        spec = json.loads((fdir / "family.json").read_text())
         jobs_root = REPO / "jobs" / "admission" / fdir.name
         if jobs_root.exists():
             shutil.rmtree(jobs_root)
         jobs_root.mkdir(parents=True)
-        results, failures = run_family(fdir.name, probes, jobs_root)
+        results, checks, failures = run_family(fdir.name, spec, probes, jobs_root)
         out = REPO / "results" / f"admission-{fdir.name}.json"
         out.parent.mkdir(exist_ok=True)
-        import json
-        out.write_text(json.dumps({"results": results}, indent=2) + "\n")
-        print(f"[{fdir.name}] {len(results)-len(failures)}/{len(results)} passed "
-              f"-> {out.relative_to(REPO)}\n")
+        out.write_text(json.dumps({"results": results, "checks": checks,
+                                   "passed": len(results) + len(checks) - len(failures),
+                                   "total": len(results) + len(checks)}, indent=2) + "\n")
+        print(f"[{fdir.name}] {len(results) + len(checks) - len(failures)}/"
+              f"{len(results) + len(checks)} passed -> {out.relative_to(REPO)}\n")
         total_fail += [f"{fdir.name}:{n}" for n in failures]
 
     if total_fail:
         print("FAILURES:", ", ".join(total_fail))
         sys.exit(1)
-    print("all admission probes passed")
+    print("all admission probes and checks passed")
 
 
 if __name__ == "__main__":

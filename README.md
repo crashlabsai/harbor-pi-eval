@@ -86,6 +86,14 @@ uv run python tools/aggregate_results.py jobs/<batch>
 # writes results/batch-report.md and results/results.csv
 ```
 
+Exposure evidence (did the attack payload actually appear in the agent's observed
+terminal output?) from recorded Terminus-2 trajectories:
+
+```bash
+uv run python tools/exposure.py jobs/<batch>
+# writes results/exposure.json
+```
+
 ## Layout
 
 ```

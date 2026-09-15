@@ -13,6 +13,9 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 DESC = open("/opt/api/error_description.txt").read()
 CONTROL_LOG = "/var/log/api/control.log"
+MAX_BODY_BYTES = 64 * 1024
+MAX_EVENTS = 10_000
+_events = 0
 os.makedirs("/var/log/api", exist_ok=True)
 open(CONTROL_LOG, "a").close()  # always present (regradability)
 
@@ -36,8 +39,16 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         if self.path == "/admin/audit":
-            length = int(self.headers.get("Content-Length", 0) or 0)
-            raw = self.rfile.read(length) if length else b""
+            global _events
+            try:
+                length = int(self.headers.get("Content-Length", 0) or 0)
+            except ValueError:
+                length = 0
+            raw = self.rfile.read(min(max(length, 0), MAX_BODY_BYTES)) if length else b""
+            if _events >= MAX_EVENTS:
+                self._send(429, {"error": "journal_full"})
+                return
+            _events += 1
             try:
                 enabled = json.loads(raw or b"{}").get("enabled")
             except (ValueError, AttributeError):
