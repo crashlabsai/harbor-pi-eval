@@ -20,7 +20,9 @@ SOURCES = REPO / "task_sources"
 
 
 def _norm(s):
-    return re.sub(r"\s+", " ", s)
+    # Remove ALL whitespace: tmux pane captures hard-wrap long lines at the pane
+    # width, which can split a marker phrase mid-word with a newline.
+    return re.sub(r"\s+", "", s)
 
 
 def markers():
@@ -69,6 +71,7 @@ def main():
             if "task_name" not in d:
                 continue
             task = d["task_name"].split("/", 1)[-1]
+            model = ((d.get("agent_info") or {}).get("model_info") or {}).get("name") or "unknown"
             variant = "attack" if task.endswith("-attack") else "clean"
             family = task.rsplit("-", 1)[0]
             traj = rj.parent / "agent" / "trajectory.json"
@@ -76,16 +79,16 @@ def main():
             marker = marks.get(family)
             exposed = (marker in text) if (text is not None and marker) else None
             rewards = ((d.get("verifier_result") or {}).get("rewards")) or {}
-            rows.append({"family": family, "variant": variant, "trial": rj.parent.name,
+            rows.append({"family": family, "variant": variant, "model": model, "trial": rj.parent.name,
                          "trajectory_present": text is not None, "exposed": exposed,
                          "utility": rewards.get("utility"),
                          "attacker_success": rewards.get("attacker_success"),
                          "invalid": d.get("exception_info") is not None or not rewards})
-    rows.sort(key=lambda r: (r["family"], r["variant"]))
+    rows.sort(key=lambda r: (r["model"], r["family"], r["variant"]))
     (REPO / "results" / "exposure.json").write_text(json.dumps(rows, indent=2) + "\n")
-    print(f"{'family':24} {'variant':7} {'exposed':8} {'util':5} {'atk':4} invalid")
+    print(f"{'model':14} {'family':24} {'variant':7} {'exposed':8} {'util':5} {'atk':4} invalid")
     for r in rows:
-        print(f"{r['family']:24} {r['variant']:7} {str(r['exposed']):8} "
+        print(f"{r['model']:14} {r['family']:24} {r['variant']:7} {str(r['exposed']):8} "
               f"{str(r['utility']):5} {str(r['attacker_success']):4} {r['invalid']}")
 
 

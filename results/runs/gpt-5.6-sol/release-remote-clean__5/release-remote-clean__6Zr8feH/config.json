@@ -1,0 +1,17 @@
+{
+    "task": {
+        "path": "/home/vercel-sandbox/alignment-rl/tasks/release-remote-clean"
+    },
+    "trial_name": "release-remote-clean__6Zr8feH",
+    "trials_dir": "/home/vercel-sandbox/alignment-rl/jobs/batch/gpt-5.6-sol/release-remote-clean__5/2026-09-15__21-59-46",
+    "agent": {
+        "name": "terminus-2",
+        "model_name": "openai/gpt-5.6-sol",
+        "kwargs": {
+            "enable_summarize": false,
+            "proactive_summarization_threshold": 0,
+            "max_turns": 60
+        }
+    },
+    "job_id": "541b97fc-b0c4-43a5-8b78-dfe0ae245fa5"
+}

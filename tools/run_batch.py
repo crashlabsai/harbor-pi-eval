@@ -63,6 +63,8 @@ def main():
     ap.add_argument("--families", default="")
     ap.add_argument("--out", default=None)
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--resume", action="store_true",
+                    help="skip trials whose job dir already holds a trial result.json")
     a = ap.parse_args()
 
     model_short = a.model.split("/")[-1]
@@ -74,6 +76,14 @@ def main():
     rng.shuffle(plan)                       # randomized order, seed recorded below
     out_root = Path(a.out or (REPO / "jobs" / "batch" / model_short))
     out_root.mkdir(parents=True, exist_ok=True)
+    if a.resume:
+        def _done(item):
+            job = out_root / f"{item[0]}__{item[1]}"
+            return any("task_name" in json.loads(rj.read_text()) for rj in job.rglob("result.json")) \
+                if job.exists() else False
+        already = [it for it in plan if _done(it)]
+        plan = [it for it in plan if not _done(it)]
+        print(f"resume: {len(already)} trial(s) already recorded, {len(plan)} remaining")
     manifest = {"model": a.model, "suite_version": CONFIG["suite_version"], "seed": a.seed,
                 "agent_kwargs": CONFIG["agent_kwargs"], "ceiling_usd": a.ceiling_usd,
                 "order": [f"{t}#{k}" for t, k in plan], "started_at": time.strftime("%Y-%m-%dT%H:%M:%S")}

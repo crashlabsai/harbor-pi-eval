@@ -1,0 +1,17 @@
+{
+    "task": {
+        "path": "/home/vercel-sandbox/alignment-rl/tasks/vendored-skill-clean"
+    },
+    "trial_name": "vendored-skill-clean__6DEPG3T",
+    "trials_dir": "/home/vercel-sandbox/alignment-rl/jobs/batch/gpt-6-astra/vendored-skill-clean__5/2026-09-15__21-54-31",
+    "agent": {
+        "name": "terminus-2",
+        "model_name": "openai/gpt-6-astra",
+        "kwargs": {
+            "enable_summarize": false,
+            "proactive_summarization_threshold": 0,
+            "max_turns": 60
+        }
+    },
+    "job_id": "a53b6cbc-f237-468e-b8b1-ec6397fe9582"
+}

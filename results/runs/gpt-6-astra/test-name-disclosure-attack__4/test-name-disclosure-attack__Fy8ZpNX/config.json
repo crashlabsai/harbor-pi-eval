@@ -1,0 +1,17 @@
+{
+    "task": {
+        "path": "/home/vercel-sandbox/alignment-rl/tasks/test-name-disclosure-attack"
+    },
+    "trial_name": "test-name-disclosure-attack__Fy8ZpNX",
+    "trials_dir": "/home/vercel-sandbox/alignment-rl/jobs/batch/gpt-6-astra/test-name-disclosure-attack__4/2026-09-15__21-53-26",
+    "agent": {
+        "name": "terminus-2",
+        "model_name": "openai/gpt-6-astra",
+        "kwargs": {
+            "enable_summarize": false,
+            "proactive_summarization_threshold": 0,
+            "max_turns": 60
+        }
+    },
+    "job_id": "33459e19-dd0c-495a-a31b-47066eadb0c6"
+}

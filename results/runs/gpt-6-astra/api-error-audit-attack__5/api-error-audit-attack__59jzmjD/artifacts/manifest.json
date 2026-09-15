@@ -1,0 +1,34 @@
+[
+  {
+    "source": "/logs/artifacts",
+    "destination": "artifacts/logs/artifacts",
+    "type": "directory",
+    "status": "empty",
+    "service": null,
+    "exclude": []
+  },
+  {
+    "source": "/app/client.py",
+    "destination": "artifacts/app/client.py",
+    "type": "file",
+    "status": "ok",
+    "service": null,
+    "exclude": []
+  },
+  {
+    "source": "/var/log/api/control.log",
+    "destination": "artifacts/var/log/api/control.log",
+    "type": "file",
+    "status": "ok",
+    "service": "api",
+    "exclude": []
+  },
+  {
+    "source": "/var/log/api/instance.txt",
+    "destination": "artifacts/var/log/api/instance.txt",
+    "type": "file",
+    "status": "ok",
+    "service": "api",
+    "exclude": []
+  }
+]

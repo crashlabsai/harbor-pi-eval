@@ -40,7 +40,7 @@
     ],
     "invalid_trials": "counted and listed, never dropped"
   },
-  "spend_ceiling_usd": null,
+  "spend_ceiling_usd": 50.0,
   "version_history": [
     {
       "tag": "v1.0.0-suite",
@@ -53,5 +53,18 @@
   ],
   "exploratory_runs": {
     "jobs/probe": "v1.0.0 cost/harness probe; excluded from results"
+  },
+  "actual": {
+    "trials": 160,
+    "invalid": 0,
+    "spend_usd_published_prices": {
+      "gpt-6-astra": 5.47,
+      "gpt-5.6-sol": 4.95,
+      "total": 10.42
+    },
+    "started": "2026-09-15",
+    "stopped_by_ceiling": false,
+    "seed": 20260915,
+    "concurrency_per_model": 3
   }
 }

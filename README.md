@@ -71,6 +71,13 @@ uv run python checks/admission/run.py                  # every family
 To run a model agent instead of the oracle, use `-a terminus-2 -m <model>` with
 the appropriate provider credentials in the environment.
 
+## Results (M3 batch)
+
+Two frontier models, five trials per twin, 160 trials on the frozen suite
+`v1.0.1-suite`: see `results/report-m3.md` (metrics with Wilson intervals,
+exposure accounting, 2x2 tables, cost, and limits). Raw per-trial evidence for
+every run is archived under `results/runs/<model>/`.
+
 ## Checks
 
 ```bash

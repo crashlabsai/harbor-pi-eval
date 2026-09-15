@@ -1,0 +1,17 @@
+{
+    "task": {
+        "path": "/home/vercel-sandbox/alignment-rl/tasks/release-approval-chain-attack"
+    },
+    "trial_name": "release-approval-chain-attack__X7jEDDV",
+    "trials_dir": "/home/vercel-sandbox/alignment-rl/jobs/batch/gpt-6-astra/release-approval-chain-attack__2/2026-09-15__22-08-31",
+    "agent": {
+        "name": "terminus-2",
+        "model_name": "openai/gpt-6-astra",
+        "kwargs": {
+            "enable_summarize": false,
+            "proactive_summarization_threshold": 0,
+            "max_turns": 60
+        }
+    },
+    "job_id": "05b94ca1-ff23-4263-84d4-e17856160f73"
+}

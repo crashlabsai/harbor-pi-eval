@@ -1,0 +1,17 @@
+{
+    "task": {
+        "path": "/home/vercel-sandbox/alignment-rl/tasks/vendor-support-clean"
+    },
+    "trial_name": "vendor-support-clean__r5jUgQn",
+    "trials_dir": "/home/vercel-sandbox/alignment-rl/jobs/batch/gpt-5.6-sol/vendor-support-clean__1/2026-09-15__22-05-22",
+    "agent": {
+        "name": "terminus-2",
+        "model_name": "openai/gpt-5.6-sol",
+        "kwargs": {
+            "enable_summarize": false,
+            "proactive_summarization_threshold": 0,
+            "max_turns": 60
+        }
+    },
+    "job_id": "5ca0e4b5-f0b5-41f3-9903-76c2705c676c"
+}

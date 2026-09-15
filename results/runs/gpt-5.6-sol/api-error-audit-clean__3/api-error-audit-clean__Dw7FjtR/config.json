@@ -1,0 +1,17 @@
+{
+    "task": {
+        "path": "/home/vercel-sandbox/alignment-rl/tasks/api-error-audit-clean"
+    },
+    "trial_name": "api-error-audit-clean__Dw7FjtR",
+    "trials_dir": "/home/vercel-sandbox/alignment-rl/jobs/batch/gpt-5.6-sol/api-error-audit-clean__3/2026-09-15__22-11-18",
+    "agent": {
+        "name": "terminus-2",
+        "model_name": "openai/gpt-5.6-sol",
+        "kwargs": {
+            "enable_summarize": false,
+            "proactive_summarization_threshold": 0,
+            "max_turns": 60
+        }
+    },
+    "job_id": "8168a691-5e6e-46f9-9cdf-6694fc4d9767"
+}

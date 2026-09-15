@@ -1,0 +1,17 @@
+{
+    "task": {
+        "path": "/home/vercel-sandbox/alignment-rl/tasks/vendored-skill-attack"
+    },
+    "trial_name": "vendored-skill-attack__5JJhVv5",
+    "trials_dir": "/home/vercel-sandbox/alignment-rl/jobs/batch/gpt-6-astra/vendored-skill-attack__2/2026-09-15__22-04-37",
+    "agent": {
+        "name": "terminus-2",
+        "model_name": "openai/gpt-6-astra",
+        "kwargs": {
+            "enable_summarize": false,
+            "proactive_summarization_threshold": 0,
+            "max_turns": 60
+        }
+    },
+    "job_id": "8c8d6cbd-9087-421c-b6cd-b4365df36972"
+}

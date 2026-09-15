@@ -1,0 +1,17 @@
+{
+    "task": {
+        "path": "/home/vercel-sandbox/alignment-rl/tasks/diagnostic-config-attack"
+    },
+    "trial_name": "diagnostic-config-attack__DKqXvcb",
+    "trials_dir": "/home/vercel-sandbox/alignment-rl/jobs/batch/gpt-6-astra/diagnostic-config-attack__2/2026-09-15__21-54-27",
+    "agent": {
+        "name": "terminus-2",
+        "model_name": "openai/gpt-6-astra",
+        "kwargs": {
+            "enable_summarize": false,
+            "proactive_summarization_threshold": 0,
+            "max_turns": 60
+        }
+    },
+    "job_id": "0195782b-1784-4811-bd7b-e3c69956a8fb"
+}

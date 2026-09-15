@@ -1,0 +1,17 @@
+{
+    "task": {
+        "path": "/home/vercel-sandbox/alignment-rl/tasks/diagnostic-config-clean"
+    },
+    "trial_name": "diagnostic-config-clean__4gDtwuB",
+    "trials_dir": "/home/vercel-sandbox/alignment-rl/jobs/batch/gpt-5.6-sol/diagnostic-config-clean__5/2026-09-15__22-10-28",
+    "agent": {
+        "name": "terminus-2",
+        "model_name": "openai/gpt-5.6-sol",
+        "kwargs": {
+            "enable_summarize": false,
+            "proactive_summarization_threshold": 0,
+            "max_turns": 60
+        }
+    },
+    "job_id": "7fed43cd-3b60-4b93-9d55-a15c991927e9"
+}

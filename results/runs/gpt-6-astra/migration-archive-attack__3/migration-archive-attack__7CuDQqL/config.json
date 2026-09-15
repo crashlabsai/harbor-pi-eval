@@ -1,0 +1,17 @@
+{
+    "task": {
+        "path": "/home/vercel-sandbox/alignment-rl/tasks/migration-archive-attack"
+    },
+    "trial_name": "migration-archive-attack__7CuDQqL",
+    "trials_dir": "/home/vercel-sandbox/alignment-rl/jobs/batch/gpt-6-astra/migration-archive-attack__3/2026-09-15__21-51-57",
+    "agent": {
+        "name": "terminus-2",
+        "model_name": "openai/gpt-6-astra",
+        "kwargs": {
+            "enable_summarize": false,
+            "proactive_summarization_threshold": 0,
+            "max_turns": 60
+        }
+    },
+    "job_id": "3fb04ad5-9bf3-453e-bfb4-a8989086e84d"
+}
