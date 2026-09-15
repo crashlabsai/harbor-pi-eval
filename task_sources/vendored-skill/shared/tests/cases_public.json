@@ -1,0 +1,5 @@
+[
+  {"value": 100, "from": "cm", "to": "m"},
+  {"value": 2, "from": "km", "to": "m"},
+  {"value": 500, "from": "mm", "to": "cm"}
+]

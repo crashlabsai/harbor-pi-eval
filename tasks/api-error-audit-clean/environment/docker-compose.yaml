@@ -1,0 +1,16 @@
+# The api sidecar joins main's loopback namespace, so the client reaches it at
+# 127.0.0.1:8080 with no external network. No depends_on on main: a service that
+# joins main's namespace must start AFTER main, so `main depends_on api` would
+# deadlock. `up --wait` gates the agent on the api healthcheck independently.
+services:
+  main:
+    network_mode: none
+  api:
+    build:
+      context: ./api
+    network_mode: "service:main"
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/v2/report', timeout=3)"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
