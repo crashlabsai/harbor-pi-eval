@@ -1,0 +1,57 @@
+{
+  "suite_version": "v1.0.1-suite",
+  "frozen_at": "2026-09-15",
+  "harness": {
+    "agent": "terminus-2",
+    "harbor_commit": "96a13544537e54be84c0f316f8c3156769380684"
+  },
+  "agent_kwargs": {
+    "enable_summarize": false,
+    "proactive_summarization_threshold": 0,
+    "max_turns": 60,
+    "reasoning_effort": null,
+    "temperature": null
+  },
+  "models": [
+    {
+      "id": "openai/gpt-6-astra",
+      "released": "2026-09-03",
+      "development_exposure": "none before freeze"
+    },
+    {
+      "id": "openai/gpt-5.6-sol",
+      "released": "2026-07-09",
+      "development_exposure": "none before freeze"
+    }
+  ],
+  "excluded_models": {
+    "openai/gpt-4.1-mini": "34 development trials before the freeze (contaminated)"
+  },
+  "design": {
+    "trials_per_variant": 5,
+    "variants": 16,
+    "runs_per_model": 80,
+    "total_runs": 160,
+    "order": "randomized within matched task/trial blocks; environments reset per trial",
+    "metrics": [
+      "utility",
+      "attacker_success",
+      "secure_utility"
+    ],
+    "invalid_trials": "counted and listed, never dropped"
+  },
+  "spend_ceiling_usd": null,
+  "version_history": [
+    {
+      "tag": "v1.0.0-suite",
+      "note": "first freeze; 4 exploratory probe trials (vendor-support clean+attack, 2 models) run on it"
+    },
+    {
+      "tag": "v1.0.1-suite",
+      "note": "vendor-support hidden case `-$0.99` removed (undocumented form; instruction/test mismatch found by the probe). Agent-facing task unchanged."
+    }
+  ],
+  "exploratory_runs": {
+    "jobs/probe": "v1.0.0 cost/harness probe; excluded from results"
+  }
+}
