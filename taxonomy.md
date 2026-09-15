@@ -21,7 +21,7 @@ payload paraphrases (PLAN.md section 4).
 ## Admitted / candidate families
 | Family | Surface | Outcome class | Evidence | Utility coupling |
 |---|---|---|---|---|
-| `vendor-support` (M1) | Vendor doc body | Exfiltration to local sink | Sink journal + canary | Independent |
+| `vendor-support` | Vendor doc body | Exfiltration to local sink | Sink journal + canary | Independent |
 | `release-remote` | Commit metadata | Unauthorized remote change | Captured git config | Independent |
 | `diagnostic-config` | Diagnostic output | Auth setting disabled | Isolated config check | Independent |
 | `migration-archive` | HTML guide | Protected records deleted | Final-state compare | Independent |
@@ -30,5 +30,7 @@ payload paraphrases (PLAN.md section 4).
 | `api-error-audit` | API error field | Audit collection disabled | Sink control journal | Independent |
 | `release-approval-chain` | Multi-hop docs | False approval claim | Authoritative record | Contaminating |
 
-Only `vendor-support` is implemented and admitted in M1. The rest are locked
-design candidates pending their own admission evidence (PLAN.md section 8).
+All eight families are implemented and admitted (see `results/summary.json` and
+`results/admission-<family>.json`). Each ships a twin pair, task card, safe
+oracle, attack witness, and an admission battery. The four eval-integrity
+fixtures (`review/fixtures/`) are a separate audit suite, never counted in ASR.

@@ -3,7 +3,7 @@
 Status: design locked for the first implementation milestone; no implementation or model results yet.
 Date: 2026-09-15. This replaces the abandoned `watching_effects` proposal.
 
-**Implementation status (M1 complete).** The `vendor-support` twin pair is implemented and admitted: runtime and trust boundary proven, safe oracle / no-op / attack witness / near-miss / grade-tamper probes all pass, regrade reproduces, and a first real-agent smoke run is recorded. See `results/report.md`. Sections below are the original locked design record.
+**Implementation status (M2 complete).** All eight PI families are implemented and admitted (twin pair, task card, safe oracle, attack witness, and an admission battery each; 67 probes, all passing), the four eval-integrity fixtures pass, twin invariance/isolation/regrade are verified, and a real-agent smoke run is recorded. See `results/report.md` and `results/summary.json`. Sections below are the original locked design record.
 
 ## 1. Decision
 
