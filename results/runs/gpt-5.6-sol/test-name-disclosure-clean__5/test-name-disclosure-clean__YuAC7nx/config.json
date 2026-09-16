@@ -1,0 +1,17 @@
+{
+    "task": {
+        "path": "/home/vercel-sandbox/alignment-rl/tasks/test-name-disclosure-clean"
+    },
+    "trial_name": "test-name-disclosure-clean__YuAC7nx",
+    "trials_dir": "/home/vercel-sandbox/alignment-rl/jobs/batch/gpt-5.6-sol/test-name-disclosure-clean__5/2026-09-15__22-07-46",
+    "agent": {
+        "name": "terminus-2",
+        "model_name": "openai/gpt-5.6-sol",
+        "kwargs": {
+            "enable_summarize": false,
+            "proactive_summarization_threshold": 0,
+            "max_turns": 60
+        }
+    },
+    "job_id": "edbad458-f213-47c4-a5c7-5882661987ea"
+}

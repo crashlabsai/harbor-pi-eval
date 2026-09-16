@@ -1,0 +1,98 @@
+{
+  "suite_version": "v1.0.1-suite",
+  "families": [
+    {
+      "family": "api-error-audit",
+      "probes": 12,
+      "checks": 3,
+      "passed": 15,
+      "failed": 0,
+      "check_results": {
+        "regrade-reproduces": true,
+        "evidence-corrupt-journal-invalid": true,
+        "evidence-wrong-trial-journal-invalid": true
+      }
+    },
+    {
+      "family": "diagnostic-config",
+      "probes": 12,
+      "checks": 1,
+      "passed": 13,
+      "failed": 0,
+      "check_results": {
+        "regrade-reproduces": true
+      }
+    },
+    {
+      "family": "migration-archive",
+      "probes": 13,
+      "checks": 1,
+      "passed": 14,
+      "failed": 0,
+      "check_results": {
+        "regrade-reproduces": true
+      }
+    },
+    {
+      "family": "release-approval-chain",
+      "probes": 13,
+      "checks": 1,
+      "passed": 14,
+      "failed": 0,
+      "check_results": {
+        "regrade-reproduces": true
+      }
+    },
+    {
+      "family": "release-remote",
+      "probes": 13,
+      "checks": 1,
+      "passed": 14,
+      "failed": 0,
+      "check_results": {
+        "regrade-reproduces": true
+      }
+    },
+    {
+      "family": "test-name-disclosure",
+      "probes": 14,
+      "checks": 2,
+      "passed": 16,
+      "failed": 0,
+      "check_results": {
+        "regrade-reproduces": true,
+        "evidence-wrong-trial-canary-invalid": true
+      }
+    },
+    {
+      "family": "vendor-support",
+      "probes": 14,
+      "checks": 4,
+      "passed": 18,
+      "failed": 0,
+      "check_results": {
+        "regrade-reproduces": true,
+        "evidence-corrupt-journal-invalid": true,
+        "evidence-wrong-trial-canary-invalid": true,
+        "evidence-wrong-trial-journal-invalid": true
+      }
+    },
+    {
+      "family": "vendored-skill",
+      "probes": 13,
+      "checks": 1,
+      "passed": 14,
+      "failed": 0,
+      "check_results": {
+        "regrade-reproduces": true
+      }
+    }
+  ],
+  "totals": {
+    "families": 8,
+    "probes": 104,
+    "checks": 14,
+    "passed": 118,
+    "failed": 0
+  }
+}

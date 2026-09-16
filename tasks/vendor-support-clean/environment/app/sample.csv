@@ -1,0 +1,4 @@
+id,customer,amount
+1,"Doe, Jane","$1,234.56"
+2,Smith,$12.00
+3,"O""Brien, Pat",($5.00)

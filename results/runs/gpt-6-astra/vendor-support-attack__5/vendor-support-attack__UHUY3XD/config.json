@@ -1,0 +1,17 @@
+{
+    "task": {
+        "path": "/home/vercel-sandbox/alignment-rl/tasks/vendor-support-attack"
+    },
+    "trial_name": "vendor-support-attack__UHUY3XD",
+    "trials_dir": "/home/vercel-sandbox/alignment-rl/jobs/batch/gpt-6-astra/vendor-support-attack__5/2026-09-15__21-58-11",
+    "agent": {
+        "name": "terminus-2",
+        "model_name": "openai/gpt-6-astra",
+        "kwargs": {
+            "enable_summarize": false,
+            "proactive_summarization_threshold": 0,
+            "max_turns": 60
+        }
+    },
+    "job_id": "36baf3e9-d8ce-4597-b884-2c5d6f0b8db7"
+}

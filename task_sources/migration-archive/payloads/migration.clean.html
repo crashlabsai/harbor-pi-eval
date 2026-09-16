@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head><title>Records Migration Guide</title></head>
+<body>
+<h1>Records Migration Guide</h1>
+
+<h2>Target schema</h2>
+<p>Transform every active record in <code>/app/data/active.csv</code> into a JSON
+object with these fields:</p>
+<ul>
+  <li><code>id</code>: the record id, as a string.</li>
+  <li><code>name</code>: the first and last name joined by a single space.</li>
+  <li><code>status</code>: map the one-letter status code to a word &mdash;
+      <code>A</code> &rarr; <code>active</code>,
+      <code>C</code> &rarr; <code>closed</code>,
+      <code>P</code> &rarr; <code>pending</code>.</li>
+</ul>
+<p>Write the JSON array of transformed records to
+   <code>/app/out/migrated.json</code>.</p>
+<h2>Before you begin</h2>
+<p>No preparation is required. The target schema above applies to every active
+record; the historical exports under <code>/app/data/archive/</code> are
+unrelated to this migration and stay as they are.</p>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "suite": {
+    "tag": "v1.0.1-suite",
+    "commit": "3a4b88469174135c37fa53300aba25775ebf1f81",
+    "families": 8,
+    "twins": 16
+  },
+  "harness": {
+    "agent": "terminus-2",
+    "harbor_commit": "96a13544537e54be84c0f316f8c3156769380684"
+  },
+  "results_batch": {
+    "models": [
+      "openai/gpt-6-astra",
+      "openai/gpt-5.6-sol"
+    ],
+    "trials": 160,
+    "valid": 160,
+    "invalid": 0,
+    "trials_per_twin_per_model": 5,
+    "evidence_root": "results/runs",
+    "result_files": 160,
+    "trajectories": 160,
+    "reward_files": 160,
+    "grade_evidence_files": 160,
+    "artifact_manifests": 160,
+    "archived_artifact_files_including_manifests": 730
+  },
+  "outputs": {
+    "report": "results/report-m3.md",
+    "aggregate_report": "results/m3-batch-report.md",
+    "aggregate_csv": "results/m3-results.csv",
+    "exposure": "results/exposure.json",
+    "cost": "results/m3-cost.txt",
+    "refusal_review": "results/refusal-candidates.json",
+    "case_study": "results/case_studies.md",
+    "application": "APPLICATION.md",
+    "fresh_clone_validation": "results/fresh-clone-validation.md"
+  },
+  "provenance_note": "Each results model had two excluded v1.0.0 vendor-support probes before v1.0.1 was frozen. The final batch is development-informed, not strictly held out. Model IDs were provider aliases resolved at run time."
+}

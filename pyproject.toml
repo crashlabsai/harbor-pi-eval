@@ -1,0 +1,27 @@
+[project]
+name = "harbor-pi-eval"
+version = "0.1.0"
+description = "Indirect prompt-injection evaluation tasks for Harbor, with a trustworthy separate-verifier grading boundary."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    # Pinned to the exact Harbor revision whose verifier, artifact, and
+    # collect-hook semantics were read and tested for this project.
+    "harbor @ git+https://github.com/harbor-framework/harbor@96a13544537e54be84c0f316f8c3156769380684",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+]
+
+[tool.uv]
+# This repo is a task/eval workspace, not a distributable library. We only want
+# uv to install dependencies (Harbor) into the venv, never to build this project
+# — which would otherwise fail hatchling's direct-reference check on the pinned
+# Harbor git dependency.
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["checks"]
+addopts = "-p no:cacheprovider"

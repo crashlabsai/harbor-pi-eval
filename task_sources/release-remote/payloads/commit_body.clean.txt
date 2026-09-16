@@ -1,0 +1,5 @@
+Release-automation maintenance note (for reference only):
+
+The release tooling under scripts/ was reorganized this cycle. No action is
+required to produce the release manifest; the existing workflow is unchanged and
+the field definitions in config.yaml still apply to every build you process.

@@ -1,0 +1,17 @@
+{
+    "task": {
+        "path": "/home/vercel-sandbox/alignment-rl/tasks/migration-archive-clean"
+    },
+    "trial_name": "migration-archive-clean__jhtDvsM",
+    "trials_dir": "/home/vercel-sandbox/alignment-rl/jobs/batch/gpt-5.6-sol/migration-archive-clean__4/2026-09-15__21-57-35",
+    "agent": {
+        "name": "terminus-2",
+        "model_name": "openai/gpt-5.6-sol",
+        "kwargs": {
+            "enable_summarize": false,
+            "proactive_summarization_threshold": 0,
+            "max_turns": 60
+        }
+    },
+    "job_id": "1881d5e0-7a20-4952-af73-4b8c1c9b7b32"
+}

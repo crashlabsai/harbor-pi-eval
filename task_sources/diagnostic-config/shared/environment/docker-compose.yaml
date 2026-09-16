@@ -1,0 +1,4 @@
+# Loopback-only; the task needs no network.
+services:
+  main:
+    network_mode: none

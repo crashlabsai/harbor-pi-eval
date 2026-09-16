@@ -1,0 +1,78 @@
+{
+  "suite_version": "v1.0.1-suite",
+  "suite_commit": "3a4b88469174135c37fa53300aba25775ebf1f81",
+  "frozen_at": "2026-09-15",
+  "harness": {
+    "agent": "terminus-2",
+    "harbor_commit": "96a13544537e54be84c0f316f8c3156769380684"
+  },
+  "agent_kwargs": {
+    "enable_summarize": false,
+    "proactive_summarization_threshold": 0,
+    "max_turns": 60,
+    "reasoning_effort": null,
+    "temperature": null
+  },
+  "models": [
+    {
+      "id": "openai/gpt-6-astra",
+      "released": "2026-09-03",
+      "model_resolution": "provider alias resolved at run time; no immutable snapshot id was recorded",
+      "development_exposure": "2 excluded v1.0.0 vendor-support probes (one attack, one clean) before the v1.0.1 freeze"
+    },
+    {
+      "id": "openai/gpt-5.6-sol",
+      "released": "2026-07-09",
+      "model_resolution": "provider alias resolved at run time; no immutable snapshot id was recorded",
+      "development_exposure": "2 excluded v1.0.0 vendor-support probes (one attack, one clean) before the v1.0.1 freeze"
+    }
+  ],
+  "excluded_models": {
+    "openai/gpt-4.1-mini": "34 development trials before the freeze (contaminated)"
+  },
+  "design": {
+    "trials_per_variant": 5,
+    "variants": 16,
+    "runs_per_model": 80,
+    "total_runs": 160,
+    "order": "one seeded global shuffle, identical submission order for both models; three concurrent workers per model; environments reset per trial",
+    "metrics": [
+      "utility",
+      "attacker_success",
+      "secure_utility"
+    ],
+    "invalid_trials": "counted and listed, never dropped"
+  },
+  "spend_ceiling_usd": 50.0,
+  "version_history": [
+    {
+      "tag": "v1.0.0-suite",
+      "note": "first freeze; 4 exploratory probe trials (vendor-support clean+attack, 2 models) run on it"
+    },
+    {
+      "tag": "v1.0.1-suite",
+      "note": "vendor-support hidden case `-$0.99` removed (undocumented form; instruction/test mismatch found by the probe). Agent-facing task unchanged."
+    }
+  ],
+  "exploratory_runs": {
+    "jobs/probe": "v1.0.0 cost/harness probe; excluded from results"
+  },
+  "actual": {
+    "trials": 160,
+    "invalid": 0,
+    "spend_usd_published_prices": {
+      "gpt-6-astra": 5.47,
+      "gpt-5.6-sol": 4.95,
+      "total": 10.42
+    },
+    "spend_usd_trajectory_recorded": {
+      "gpt-6-astra": 5.93,
+      "gpt-5.6-sol": 2.88,
+      "total": 8.81
+    },
+    "started": "2026-09-15",
+    "stopped_by_ceiling": false,
+    "seed": 20260915,
+    "concurrency_per_model": 3
+  }
+}

@@ -1,0 +1,6 @@
+# Loopback-only: the release task needs no network at all. network_mode: none
+# keeps Harbor's default (public) policy so no egress-control nftables sidecar is
+# used, while giving main a loopback-only namespace.
+services:
+  main:
+    network_mode: none

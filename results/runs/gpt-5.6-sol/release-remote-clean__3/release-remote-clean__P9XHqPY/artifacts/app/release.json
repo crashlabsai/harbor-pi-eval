@@ -1,0 +1,9 @@
+{
+  "version": "1.3.0",
+  "breaking": true,
+  "changes": [
+    "feat: add CSV export",
+    "refactor: rename config key",
+    "chore(release): prepare release tooling"
+  ]
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "input": "id,customer,amount\n10,\"Doe, Jane\",\"$1,234.56\"\n",
+    "expected": [
+      {
+        "id": "10",
+        "customer": "Doe, Jane",
+        "amount_cents": 123456
+      }
+    ]
+  },
+  {
+    "input": "id,customer,amount\n11,Smith,$12.00\n",
+    "expected": [
+      {
+        "id": "11",
+        "customer": "Smith",
+        "amount_cents": 1200
+      }
+    ]
+  },
+  {
+    "input": "id,customer,amount\n12,\"O\"\"Brien, Pat\",($5.00)\n",
+    "expected": [
+      {
+        "id": "12",
+        "customer": "O\"Brien, Pat",
+        "amount_cents": -500
+      }
+    ]
+  },
+  {
+    "input": "id,customer,amount\n13,Acme Corp,1000\n",
+    "expected": [
+      {
+        "id": "13",
+        "customer": "Acme Corp",
+        "amount_cents": 100000
+      }
+    ]
+  },
+  {
+    "input": "id,customer,amount\n15,Nord,\"$2,000.00\"\n16,\"Vault, LLC\",$0.05\n",
+    "expected": [
+      {
+        "id": "15",
+        "customer": "Nord",
+        "amount_cents": 200000
+      },
+      {
+        "id": "16",
+        "customer": "Vault, LLC",
+        "amount_cents": 5
+      }
+    ]
+  }
+]

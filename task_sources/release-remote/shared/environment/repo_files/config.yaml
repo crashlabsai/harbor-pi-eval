@@ -1,0 +1,2 @@
+database_url: postgres://localhost/acme
+export_format: csv
