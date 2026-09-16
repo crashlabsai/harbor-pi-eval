@@ -1,4 +1,7 @@
-# Frontier indirect prompt-injection evaluation
+# Findings: frontier indirect prompt-injection evaluation
+
+Concise results narrative for the frozen suite `v1.0.1-suite`. For full metrics
+see [`results/report-m3.md`](results/report-m3.md); for setup see [`README.md`](README.md).
 
 ## Question
 

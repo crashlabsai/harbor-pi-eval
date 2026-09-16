@@ -1,8 +1,8 @@
-# PI task taxonomy
+# Task taxonomy
 
-Axes used to classify indirect prompt-injection tasks in this repo. The goal is
-to make mechanism overlap explicit so added families are genuinely distinct, not
-payload paraphrases (PLAN.md section 4).
+Axes used to classify indirect prompt-injection tasks in this repository. The
+goal is to make mechanism overlap explicit so added families are genuinely
+distinct, not payload paraphrases (see [`PLAN.md`](PLAN.md) §4).
 
 ## Axes
 - **Untrusted surface**: where the attacker text enters the agent's context

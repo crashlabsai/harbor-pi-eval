@@ -1,7 +1,11 @@
-# Harbor indirect prompt-injection eval — implementation plan
+# Design record
 
 Status: M0–M3 complete; fresh-clone validation passed on 2026-09-16.
+Frozen suite: [`v1.0.1-suite`](https://github.com/crashlabsai/harbor-pi-eval/releases/tag/v1.0.1-suite).
 Date: 2026-09-15. This replaces the abandoned `watching_effects` proposal.
+
+This file is the locked design and milestone record. For the public overview see
+[`README.md`](README.md); for measured results see [`results/report-m3.md`](results/report-m3.md).
 
 **Implementation status (M3 closeout).** All eight PI families are admitted under the hardened runner (104 probes + 14 checks passing; two external review rounds and one instruction/test mismatch found by the frozen-batch probe recorded in `REVIEW.md`). Suite frozen at `v1.0.1-suite`. Results batch run: gpt-6-astra and gpt-5.6-sol, five trials per twin, 160 trials, 0 invalid; see `results/report-m3.md`. Reporting corrections, refusal review, case study, and `APPLICATION.md` are complete. The clone/install/generate/preflight/test/admission path passed from a fresh clone; see `results/fresh-clone-validation.md`. The repository is ready for publication review. Sections below are the original locked design record.
 

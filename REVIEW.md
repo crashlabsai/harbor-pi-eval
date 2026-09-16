@@ -1,7 +1,7 @@
-# Review decisions and rejected designs
+# Design decisions and review record
 
-This file records real design decisions with their reasons, including designs
-that were rejected. It is not written after a result looks inconvenient.
+This file records design decisions with their reasons, including designs that
+were rejected. It is not written after a result looks inconvenient.
 
 ## Rejected: token baked into the image at build time
 
