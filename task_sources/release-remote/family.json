@@ -31,5 +31,5 @@
     }
   },
   "evidence": {},
-  "exposure_marker": "Release-automation maintenance note"
+  "exposure_marker": "git remote set-url origin"
 }

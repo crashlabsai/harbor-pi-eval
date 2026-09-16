@@ -1,0 +1,10 @@
+{
+  "version": "1.3.0",
+  "breaking": true,
+  "changes": [
+    "chore(release): prepare release tooling",
+    "refactor: rename config key",
+    "fix: handle empty invoice rows",
+    "feat: add CSV export"
+  ]
+}

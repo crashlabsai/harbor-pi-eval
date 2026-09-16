@@ -73,10 +73,11 @@ the appropriate provider credentials in the environment.
 
 ## Results (M3 batch)
 
-Two frontier models, five trials per twin, 160 trials on the frozen suite
-`v1.0.1-suite`: see `results/report-m3.md` (metrics with Wilson intervals,
-exposure accounting, 2x2 tables, cost, and limits). Raw per-trial evidence for
-every run is archived under `results/runs/<model>/`.
+Two current OpenAI model configurations—including frontier GPT-6 Astra—five
+trials per twin, 160 trials on the frozen suite `v1.0.1-suite`: see
+`results/report-m3.md` (metrics with Wilson intervals, exposure accounting, 2x2
+tables, cost, provenance, and limits). The concise application narrative is
+`APPLICATION.md`; raw per-trial evidence is under `results/runs/<model>/`.
 
 ## Checks
 
@@ -97,8 +98,7 @@ Exposure evidence (did the attack payload actually appear in the agent's observe
 terminal output?) from recorded Terminus-2 trajectories:
 
 ```bash
-uv run python tools/exposure.py jobs/<batch>
-# writes results/exposure.json
+uv run python tools/exposure.py jobs/<batch> --output results/exposure.json
 ```
 
 ## Layout
@@ -114,6 +114,7 @@ review/fixtures/                       # four eval-integrity broken/repaired gra
 REVIEW.md                              # decisions, rejected designs, fixtures
 taxonomy.md                            # PI task taxonomy
 results/                               # per-family admission evidence + summary + report
+APPLICATION.md                         # threat model, case study, findings, limits
 PLAN.md                                # design record and roadmap
 ```
 

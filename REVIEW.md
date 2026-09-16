@@ -140,3 +140,37 @@ both marker and observed text before matching. Recomputed exposure is 40/40 for
 both models in the batch and 6/8 (was 5/8) for the earlier dev smoke. This
 mattered: without the fix, a 0 ASR would have been mis-attributed to
 non-exposure rather than reported as an exposed-run result.
+
+## M3 closeout review (2026-09-16)
+
+The post-batch review accepted six closeout findings without rerunning model
+trials:
+
+1. **Development exposure was understated.** Astra and Sol each ran one attack
+   and one clean `vendor-support` probe on v1.0.0 before v1.0.1 was frozen. The
+   probes remain excluded, but the report and configuration now call the final
+   batch development-informed rather than strictly held out.
+2. **The release-remote exposure marker was shared by both twins.** The generic
+   heading was replaced with the attack-only command `git remote set-url origin`.
+   A static check now rejects any marker found in its clean payload. Recomputed
+   M3 exposure remains 40/40 attack and becomes 0/40 clean for each model; no
+   reward or ASR changes.
+3. **The only clean failure awaited review.** Its trajectory contains a concrete
+   correction plan and no safety/policy refusal, so it is labeled
+   `not-refusal` with rationale in `results/refusal-candidates.json`.
+4. **“Raw evidence” omitted collected artifact bodies.** The archive previously
+   retained artifact manifests but not files such as sink journals and canaries.
+   All 160 trials' declared artifacts are now under `results/runs/`; the selected
+   case study links the exact canary, journal, trajectory, evidence, and reward.
+5. **Batch execution was not fail-closed.** `tools/run_batch.py` now enforces the
+   configured model allowlist and suite tag, refuses dirty runtime inputs or a
+   nonempty output directory, records every subprocess attempt, stops launching
+   after failure, exits nonzero for missing/failed results, and carries prior
+   spend and the original plan across exact resumes.
+6. **M3 deliverables were incomplete.** The admission checklist is recorded,
+   the case study and application are written, and fresh-clone validation is a
+   required final gate rather than implied by the completed results batch.
+
+No result is relabeled and no model trial is discarded. The configuration also
+states that model names were provider aliases with provider-default reasoning,
+not immutable snapshots.

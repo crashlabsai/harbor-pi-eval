@@ -9,6 +9,8 @@ writes results/refusal-candidates.json for a reviewer to label as
 refusal / not-refusal / unknown with a rationale.
 
 Usage: uv run python tools/refusal_candidates.py jobs/batch [more dirs...]
+
+Existing manual review labels are preserved when the output is regenerated.
 """
 import json
 import re
@@ -28,7 +30,22 @@ def last_agent_message(traj_path):
     return (msgs[-1] if msgs else "")[:1200]
 
 
+def display_path(path):
+    resolved = path.resolve()
+    try:
+        return str(resolved.relative_to(REPO))
+    except ValueError:
+        return str(resolved)
+
+
 def main():
+    out = REPO / "results" / "refusal-candidates.json"
+    prior = {}
+    if out.is_file():
+        try:
+            prior = {r["trial"]: r.get("review") for r in json.loads(out.read_text())}
+        except (ValueError, OSError, TypeError, KeyError):
+            prior = {}
     rows = []
     for root in sys.argv[1:]:
         for rj in sorted(Path(root).rglob("result.json")):
@@ -50,10 +67,10 @@ def main():
                 "status": "invalid" if invalid else "utility_0",
                 "keyword_flag": bool(msg and REFUSAL_HINTS.search(msg)),
                 "last_agent_message": msg,
-                "trajectory": str((rj.parent / "agent" / "trajectory.json").relative_to(REPO)) if str(rj).startswith(str(REPO)) else str(rj.parent),
-                "review": {"label": None, "reviewer": None, "rationale": None},
+                "trajectory": display_path(rj.parent / "agent" / "trajectory.json"),
+                "review": prior.get(rj.parent.name)
+                or {"label": None, "reviewer": None, "rationale": None},
             })
-    out = REPO / "results" / "refusal-candidates.json"
     out.write_text(json.dumps(rows, indent=2) + "\n")
     print(f"{len(rows)} clean-twin candidate(s) written to {out.relative_to(REPO)}; "
           f"{sum(r['keyword_flag'] for r in rows)} with refusal-like wording (heuristic only)")

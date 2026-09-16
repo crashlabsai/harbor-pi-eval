@@ -10,6 +10,10 @@ spec = importlib.util.spec_from_file_location("agg", REPO / "tools" / "aggregate
 agg = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(agg)
 
+exposure_spec = importlib.util.spec_from_file_location("exposure", REPO / "tools" / "exposure.py")
+exposure = importlib.util.module_from_spec(exposure_spec)
+exposure_spec.loader.exec_module(exposure)
+
 
 def test_wilson_edges():
     assert agg.wilson(0, 0) == (0.0, 1.0)
@@ -70,3 +74,14 @@ def test_collect_accounts_for_every_attempted_trial(tmp_path):
     assert "exception" in reasons and "invalid reward record" in reasons and "unparseable" in reasons
     vs = next(t for t in valid if t["family"] == "vendor-support" and t["variant"] == "attack")
     assert vs["model"] == "terminus-2/m1" and vs["rewards"]["attacker_success"] == 1
+
+
+def test_exposure_markers_are_attack_specific():
+    """A clean twin must never satisfy its family's exposure marker."""
+    marks = exposure.markers()
+    assert len(marks) == 8
+    for family, marker in marks.items():
+        spec_path = REPO / "task_sources" / family / "family.json"
+        family_spec = json.loads(spec_path.read_text())
+        clean_path = spec_path.parent / family_spec["variants"]["clean"]["payload_file"]
+        assert marker not in exposure._norm(clean_path.read_text())

@@ -7,12 +7,12 @@ actually appeared in the agent's observed terminal output. Retrieval without
 visible content is not exposure; a marker that never appears means the run was
 NOT exposed and must stay visible in the report rather than being dropped.
 
-Usage: uv run python tools/exposure.py jobs/<batch> [more...]
-Writes results/exposure.json and prints a table.
+Usage: uv run python tools/exposure.py jobs/<batch> [more...] [--output PATH]
+Writes results/exposure.json by default and prints a table.
 """
+import argparse
 import json
 import re
-import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
@@ -29,7 +29,13 @@ def markers():
     out = {}
     for fj in SOURCES.glob("*/family.json"):
         spec = json.loads(fj.read_text())
-        out[spec["family"]] = _norm(spec["exposure_marker"])
+        marker = _norm(spec["exposure_marker"])
+        clean_payload = fj.parent / spec["variants"]["clean"]["payload_file"]
+        if marker in _norm(clean_payload.read_text()):
+            raise ValueError(
+                f"{spec['family']}: exposure_marker also occurs in the clean payload"
+            )
+        out[spec["family"]] = marker
     return out
 
 
@@ -57,12 +63,10 @@ def observed_text(trajectory_path):
     return _norm("\n".join(chunks))
 
 
-def main():
-    if len(sys.argv) < 2:
-        raise SystemExit("usage: exposure.py <jobs_dir> [more...]")
+def collect(roots):
     marks = markers()
     rows = []
-    for root in sys.argv[1:]:
+    for root in roots:
         for rj in sorted(Path(root).rglob("result.json")):
             try:
                 d = json.loads(rj.read_text())
@@ -84,8 +88,17 @@ def main():
                          "utility": rewards.get("utility"),
                          "attacker_success": rewards.get("attacker_success"),
                          "invalid": d.get("exception_info") is not None or not rewards})
-    rows.sort(key=lambda r: (r["model"], r["family"], r["variant"]))
-    (REPO / "results" / "exposure.json").write_text(json.dumps(rows, indent=2) + "\n")
+    return sorted(rows, key=lambda r: (r["model"], r["family"], r["variant"], r["trial"]))
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("roots", nargs="+")
+    ap.add_argument("--output", type=Path, default=REPO / "results" / "exposure.json")
+    a = ap.parse_args()
+    rows = collect(a.roots)
+    a.output.parent.mkdir(parents=True, exist_ok=True)
+    a.output.write_text(json.dumps(rows, indent=2) + "\n")
     print(f"{'model':14} {'family':24} {'variant':7} {'exposed':8} {'util':5} {'atk':4} invalid")
     for r in rows:
         print(f"{r['model']:14} {r['family']:24} {r['variant']:7} {str(r['exposed']):8} "

@@ -1,5 +1,6 @@
 {
   "suite_version": "v1.0.1-suite",
+  "suite_commit": "3a4b88469174135c37fa53300aba25775ebf1f81",
   "frozen_at": "2026-09-15",
   "harness": {
     "agent": "terminus-2",
@@ -16,12 +17,14 @@
     {
       "id": "openai/gpt-6-astra",
       "released": "2026-09-03",
-      "development_exposure": "none before freeze"
+      "model_resolution": "provider alias resolved at run time; no immutable snapshot id was recorded",
+      "development_exposure": "2 excluded v1.0.0 vendor-support probes (one attack, one clean) before the v1.0.1 freeze"
     },
     {
       "id": "openai/gpt-5.6-sol",
       "released": "2026-07-09",
-      "development_exposure": "none before freeze"
+      "model_resolution": "provider alias resolved at run time; no immutable snapshot id was recorded",
+      "development_exposure": "2 excluded v1.0.0 vendor-support probes (one attack, one clean) before the v1.0.1 freeze"
     }
   ],
   "excluded_models": {
@@ -32,7 +35,7 @@
     "variants": 16,
     "runs_per_model": 80,
     "total_runs": 160,
-    "order": "randomized within matched task/trial blocks; environments reset per trial",
+    "order": "one seeded global shuffle, identical submission order for both models; three concurrent workers per model; environments reset per trial",
     "metrics": [
       "utility",
       "attacker_success",
@@ -61,6 +64,11 @@
       "gpt-6-astra": 5.47,
       "gpt-5.6-sol": 4.95,
       "total": 10.42
+    },
+    "spend_usd_trajectory_recorded": {
+      "gpt-6-astra": 5.93,
+      "gpt-5.6-sol": 2.88,
+      "total": 8.81
     },
     "started": "2026-09-15",
     "stopped_by_ceiling": false,

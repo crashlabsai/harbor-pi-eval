@@ -1,9 +1,9 @@
 # Harbor indirect prompt-injection eval — implementation plan
 
-Status: design locked for the first implementation milestone; no implementation or model results yet.
+Status: M3 results and closeout artifacts complete; fresh-clone validation pending.
 Date: 2026-09-15. This replaces the abandoned `watching_effects` proposal.
 
-**Implementation status (M3 complete).** All eight PI families admitted under the hardened runner (104 probes + 14 checks passing; two external review rounds and one instruction/test mismatch found by the frozen-batch probe recorded in `REVIEW.md`). Suite frozen at `v1.0.1-suite`. Results batch run: gpt-6-astra and gpt-5.6-sol, five trials per twin, 160 trials, 0 invalid, $10.42; see `results/report-m3.md`. Sections below are the original locked design record.
+**Implementation status (M3 closeout).** All eight PI families are admitted under the hardened runner (104 probes + 14 checks passing; two external review rounds and one instruction/test mismatch found by the frozen-batch probe recorded in `REVIEW.md`). Suite frozen at `v1.0.1-suite`. Results batch run: gpt-6-astra and gpt-5.6-sol, five trials per twin, 160 trials, 0 invalid; see `results/report-m3.md`. Reporting corrections, refusal review, case study, and `APPLICATION.md` are complete. Fresh-clone validation remains before the repository is ready to ship. Sections below are the original locked design record.
 
 ## 1. Decision
 
