@@ -1,9 +1,9 @@
 # Harbor indirect prompt-injection eval — implementation plan
 
-Status: M3 results and closeout artifacts complete; fresh-clone validation pending.
+Status: M0–M3 complete; fresh-clone validation passed on 2026-09-16.
 Date: 2026-09-15. This replaces the abandoned `watching_effects` proposal.
 
-**Implementation status (M3 closeout).** All eight PI families are admitted under the hardened runner (104 probes + 14 checks passing; two external review rounds and one instruction/test mismatch found by the frozen-batch probe recorded in `REVIEW.md`). Suite frozen at `v1.0.1-suite`. Results batch run: gpt-6-astra and gpt-5.6-sol, five trials per twin, 160 trials, 0 invalid; see `results/report-m3.md`. Reporting corrections, refusal review, case study, and `APPLICATION.md` are complete. Fresh-clone validation remains before the repository is ready to ship. Sections below are the original locked design record.
+**Implementation status (M3 closeout).** All eight PI families are admitted under the hardened runner (104 probes + 14 checks passing; two external review rounds and one instruction/test mismatch found by the frozen-batch probe recorded in `REVIEW.md`). Suite frozen at `v1.0.1-suite`. Results batch run: gpt-6-astra and gpt-5.6-sol, five trials per twin, 160 trials, 0 invalid; see `results/report-m3.md`. Reporting corrections, refusal review, case study, and `APPLICATION.md` are complete. The clone/install/generate/preflight/test/admission path passed from a fresh clone; see `results/fresh-clone-validation.md`. The repository is ready for publication review. Sections below are the original locked design record.
 
 ## 1. Decision
 
@@ -292,19 +292,19 @@ artifacts exist, without claiming results in advance.
 
 ## 10. Implementation milestones and stop conditions
 
-### M0 — prove the runtime and trust boundary
+### M0 — prove the runtime and trust boundary — complete
 
 Confirm a working Docker/Compose backend; pin Harbor; validate the task schema.
 Prove local sink reachability and public-egress denial. Prove safe artifact
 transfer, agent-stop ordering, an inaccessible grading image, and rejection of
 agent-written reward files. No model calls are needed.
 
-Current environment: Docker CLI is installed but the daemon was not available
-when checked. No Docker execution, separate-verifier behavior, or live model
-integration has been validated here. Resolve that during implementation; do not
-substitute an unisolated host shell and call it Harbor.
+Implementation outcome: Docker execution, separate-verifier behavior, local
+service isolation, artifact collection, regrading, and live Terminus-2 model
+integration were validated. The final fresh-clone gate reran the full 18-check
+`vendor-support` admission battery; see `results/fresh-clone-validation.md`.
 
-### M1 — one excellent task, end to end
+### M1 — one excellent task, end to end — complete
 
 Implement `vendor-support` and its clean twin. Ship their task cards, safe oracle,
 attack witness, isolated behavioral tests, sink journal, admission tests, and one
@@ -314,14 +314,14 @@ real-agent smoke runs and a report that links every grade to evidence.
 **Stop expansion if the safe route, sink evidence, or grade protection fails.**
 This pair is the first reviewable milestone; it must stand on its own.
 
-### M2 — freeze the reviewed suite
+### M2 — freeze the reviewed suite — complete
 
 Admit the remaining seven families one at a time; finish the four integrity
 fixtures and checklist automation. Maintain the rejection log and taxonomy.
 Freeze task, payload, and grader versions before the results batch. Changes
 after seeing outcomes require a new version and an exploratory-results label.
 
-### M3 — small results batch and application artifact
+### M3 — small results batch and application artifact — complete
 
 Target one harness, two pinned model configurations, five trials per variant per
 family: **160 runs**. Select accessible model IDs and set a spend ceiling before

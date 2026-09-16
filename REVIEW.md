@@ -168,8 +168,9 @@ trials:
    after failure, exits nonzero for missing/failed results, and carries prior
    spend and the original plan across exact resumes.
 6. **M3 deliverables were incomplete.** The admission checklist is recorded,
-   the case study and application are written, and fresh-clone validation is a
-   required final gate rather than implied by the completed results batch.
+   the case study and application are written, and the required final
+   fresh-clone gate subsequently passed; its environment, commands, and outcomes
+   are recorded in `results/fresh-clone-validation.md`.
 
 No result is relabeled and no model trial is discarded. The configuration also
 states that model names were provider aliases with provider-default reasoning,

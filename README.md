@@ -78,6 +78,8 @@ trials per twin, 160 trials on the frozen suite `v1.0.1-suite`: see
 `results/report-m3.md` (metrics with Wilson intervals, exposure accounting, 2x2
 tables, cost, provenance, and limits). The concise application narrative is
 `APPLICATION.md`; raw per-trial evidence is under `results/runs/<model>/`.
+The final clone/install/test/admission gate is recorded in
+`results/fresh-clone-validation.md`.
 
 ## Checks
 

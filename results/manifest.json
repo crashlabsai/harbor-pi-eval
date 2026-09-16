@@ -35,7 +35,8 @@
     "cost": "results/m3-cost.txt",
     "refusal_review": "results/refusal-candidates.json",
     "case_study": "results/case_studies.md",
-    "application": "APPLICATION.md"
+    "application": "APPLICATION.md",
+    "fresh_clone_validation": "results/fresh-clone-validation.md"
   },
   "provenance_note": "Each results model had two excluded v1.0.0 vendor-support probes before v1.0.1 was frozen. The final batch is development-informed, not strictly held out. Model IDs were provider aliases resolved at run time."
 }
