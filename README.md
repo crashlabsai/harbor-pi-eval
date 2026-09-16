@@ -5,7 +5,8 @@ A reviewable work sample: indirect prompt-injection (PI) tasks for
 tamper-resistant grading boundary, and a documented admission process.
 
 Eight PI task families are implemented and admitted, each with a matched clean
-twin. See `PLAN.md` for the full design and `results/report.md` for the evidence.
+twin. See `PLAN.md` for the full design, `results/report-m3.md` for the measured
+batch, and `results/report.md` for admission evidence.
 
 ## Families
 
@@ -115,9 +116,10 @@ review/CHECKLIST.md                    # admission checklist
 review/fixtures/                       # four eval-integrity broken/repaired grader pairs
 REVIEW.md                              # decisions, rejected designs, fixtures
 taxonomy.md                            # PI task taxonomy
-results/                               # per-family admission evidence + summary + report
+results/                               # admission evidence, M3 report, archived runs
 APPLICATION.md                         # threat model, case study, findings, limits
 PLAN.md                                # design record and roadmap
+LICENSE                                # MIT
 ```
 
 Regenerate the twins after editing the source:

@@ -1,9 +1,26 @@
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
 .venv/
+venv/
+
+# Harbor / local run outputs (regenerable)
 /jobs/
 /trials/
-/.harbor/
 /trials-regrade/
+/.harbor/
 /results/batch-report.md
 /results/results.csv
+
+# Conductor / editor local state
+.context/
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*~
