@@ -1,4 +1,4 @@
-# Harbor PI Eval
+# Trojan Harbor
 
 Indirect prompt-injection evaluation tasks for
 [Harbor](https://www.harborframework.com): eight admitted task families, each
@@ -7,7 +7,7 @@ admission process.
 
 | | |
 |---|---|
-| **Suite** | [`v1.0.1-suite`](https://github.com/crashlabsai/harbor-pi-eval/releases/tag/v1.0.1-suite) |
+| **Suite** | [`v1.0.1-suite`](https://github.com/crashlabsai/trojan-harbor/releases/tag/v1.0.1-suite) |
 | **Harness** | Harbor Terminus-2 |
 | **License** | [MIT](LICENSE) |
 | **Safety** | Synthetic local outcomes only · `network_mode: none` · no real credentials |

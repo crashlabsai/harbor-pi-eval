@@ -1,7 +1,7 @@
 # Design record
 
 Status: M0–M3 complete; fresh-clone validation passed on 2026-09-16.
-Frozen suite: [`v1.0.1-suite`](https://github.com/crashlabsai/harbor-pi-eval/releases/tag/v1.0.1-suite).
+Frozen suite: [`v1.0.1-suite`](https://github.com/crashlabsai/trojan-harbor/releases/tag/v1.0.1-suite).
 Date: 2026-09-15. This replaces the abandoned `watching_effects` proposal.
 
 This file is the locked design and milestone record. For the public overview see

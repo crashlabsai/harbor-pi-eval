@@ -5,7 +5,7 @@ This repository is an **evaluation suite**, not a defense product.
 ## Supported versions
 
 Security fixes are considered for the current main branch and the frozen suite
-tag [`v1.0.1-suite`](https://github.com/crashlabsai/harbor-pi-eval/releases/tag/v1.0.1-suite).
+tag [`v1.0.1-suite`](https://github.com/crashlabsai/trojan-harbor/releases/tag/v1.0.1-suite).
 
 ## Scope
 
@@ -20,7 +20,7 @@ tag [`v1.0.1-suite`](https://github.com/crashlabsai/harbor-pi-eval/releases/tag/
 
 Please report issues in the **eval infrastructure**—for example unintended
 egress, credential leakage, or a grader that can be forged into a false pass—
-via [GitHub Security Advisories](https://github.com/crashlabsai/harbor-pi-eval/security/advisories/new)
+via [GitHub Security Advisories](https://github.com/crashlabsai/trojan-harbor/security/advisories/new)
 for this repository, or through the [Crash Labs](https://github.com/crashlabsai)
 organization.
 

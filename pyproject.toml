@@ -1,7 +1,7 @@
 [project]
-name = "harbor-pi-eval"
+name = "trojan-harbor"
 version = "0.1.0"
-description = "Indirect prompt-injection evaluation tasks for Harbor, with a trustworthy separate-verifier grading boundary."
+description = "Trojan Harbor: indirect prompt-injection evaluation tasks for Harbor, with a trustworthy separate-verifier grading boundary."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

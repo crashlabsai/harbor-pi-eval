@@ -734,7 +734,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "harbor-pi-eval"
+name = "trojan-harbor"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
