@@ -4,9 +4,15 @@ A reviewable work sample: indirect prompt-injection (PI) tasks for
 [Harbor](https://www.harborframework.com), each with a matched clean twin, a
 tamper-resistant grading boundary, and a documented admission process.
 
+**Safety:** attacker outcomes are synthetic and local only (fake tokens, local
+sinks, task-local markers). Task containers run with `network_mode: none` and
+ship no real credentials or public egress. Do not point these tasks at production
+systems or real secrets.
+
 Eight PI task families are implemented and admitted, each with a matched clean
 twin. See `PLAN.md` for the full design, `results/report-m3.md` for the measured
-batch, and `results/report.md` for admission evidence.
+batch, and `results/report.md` for admission evidence. The frozen suite tag is
+`v1.0.1-suite`.
 
 ## Families
 
